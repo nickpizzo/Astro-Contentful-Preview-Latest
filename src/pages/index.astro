@@ -1,0 +1,50 @@
+---
+// src/pages/index.astro
+
+import { fetchAllBooks } from "../api/contentful";
+
+const books = await fetchAllBooks();
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astrobrary</title>
+	</head>
+	<body>
+		<h1 class="text-6xl sm:text-8xl text-center">
+			Astrobrary <span aria-label="Rocket Emoji">🚀</span>
+		</h1>
+		<h2 class="text-base text-center text-stone-400">
+			Collection of Astrology Science Fiction
+		</h2>
+		<section class="container mx-auto mt-4">
+			<ul
+				class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
+			>
+				{
+					books.map((book) => (
+						<li class="mt-4" key={book.sys.id}>
+							<a href={`books/${book.sys.id}`} class="group">
+								<div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+									<img
+										src={book.fields.coverImage.fields.file.url}
+										alt={book.fields.title}
+										class="h-full w-full object-cover object-center group-hover:opacity-75"
+									/>
+								</div>
+								<h3 class="mt-4 text-lg text-white text-center">
+									{book.fields.title}
+								</h3>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</body>
+</html>
