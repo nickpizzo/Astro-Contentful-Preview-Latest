@@ -1,12 +1,10 @@
 ---
 // @ts-nocheck
 // src/pages/books/[slug].astro
+export const prerender = false;
 
 import { fetchBookById } from "../../api/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-
-// Disable pre-rendering
-export const prerender = false;
 
 const { slug } = Astro.params;
 let book;

@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, passthroughImageService } from 'astro/config';
 import netlify from '@astrojs/netlify/functions';
 // import node from '@astrojs/node';
 
@@ -11,5 +11,8 @@ export default defineConfig({
   //   mode: "standalone"
   // }),
   adapter: netlify(),
-  integrations: [tailwind()]
+  integrations: [tailwind()],
+  image: {
+    service: passthroughImageService(),
+  },
 });
