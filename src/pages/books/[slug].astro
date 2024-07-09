@@ -13,6 +13,7 @@ let book;
 
 try {
   book = await fetchBookById(slug);
+  console.log(book);
 } catch (error) {
   return Astro.redirect("/404");
 }
