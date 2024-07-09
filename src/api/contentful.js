@@ -4,14 +4,13 @@ const space = import.meta.env.CONTENTFUL_SPACE;
 const accessToken = import.meta.env.CONTENTFUL_API_TOKEN;
 const previewToken = import.meta.env.CONTENTFUL_PREVIEW_TOKEN;
 const environment = import.meta.env.CONTENTFUL_ENVIRONMENT ?? "master";
-const isPreview = import.meta.env.IS_PREVIEW === 'true';
+const isPreview = import.meta.env.IS_PREVIEW ?? '';
 
 // Standard Contentful client
 const client = contentful.createClient({
     space,
     accessToken,
     environment,
-    host: 'preview.contentful.com',
 }).withoutUnresolvableLinks;
 
 // Preview Contentful client
@@ -23,13 +22,12 @@ const previewClient = contentful.createClient({
 }).withoutUnresolvableLinks;
 
 // Helper to switch between clients
-function getClient(preview) {
-    return preview ? previewClient : client;
+function getClient(isPreview) {
+    return isPreview === "true" ? previewClient : client;
 }
 
 export async function fetchAllBooks() {
     const client = getClient(isPreview);
-    console.log(isPreview);
     const response = await client.getEntries({
         content_type: "bookReferencePage",
         include: 10,
@@ -40,7 +38,6 @@ export async function fetchAllBooks() {
 
 export async function fetchBookById(id) {
   const client = getClient(isPreview);
-  console.log(isPreview);
   const response = await client.getEntry(id);
   return response.fields;
 }
