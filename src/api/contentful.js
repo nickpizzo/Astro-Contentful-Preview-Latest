@@ -11,6 +11,7 @@ const client = contentful.createClient({
     space,
     accessToken,
     environment,
+    host: 'preview.contentful.com',
 }).withoutUnresolvableLinks;
 
 // Preview Contentful client
@@ -28,6 +29,7 @@ function getClient(preview) {
 
 export async function fetchAllBooks() {
     const client = getClient(isPreview);
+    console.log(isPreview);
     const response = await client.getEntries({
         content_type: "bookReferencePage",
         include: 10,
@@ -38,6 +40,7 @@ export async function fetchAllBooks() {
 
 export async function fetchBookById(id) {
   const client = getClient(isPreview);
+  console.log(isPreview);
   const response = await client.getEntry(id);
   return response.fields;
 }
